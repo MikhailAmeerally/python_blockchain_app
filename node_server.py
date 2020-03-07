@@ -68,6 +68,7 @@ class Blockchain:
 
         block.hash = proof
         self.chain.append(block)
+        self.chain_length += 1
         return True
 
     @staticmethod
