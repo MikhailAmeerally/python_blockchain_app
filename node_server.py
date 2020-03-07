@@ -29,6 +29,7 @@ class Blockchain:
     def __init__(self):
         self.unconfirmed_transactions = []
         self.chain = []
+        self.chain_length = 0
 
     def create_genesis_block(self):
         """
@@ -39,10 +40,15 @@ class Blockchain:
         genesis_block = Block(0, [], 0, "0")
         genesis_block.hash = genesis_block.compute_hash()
         self.chain.append(genesis_block)
+        self.chain_length += 1
 
     @property
     def last_block(self):
         return self.chain[-1]
+
+    @property
+    def chain_length(self):
+        return self.chain_length
 
     def add_block(self, block, proof):
         """
