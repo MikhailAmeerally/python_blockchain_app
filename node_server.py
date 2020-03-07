@@ -24,7 +24,7 @@ class Block:
 
 class Blockchain:
     # difficulty of our PoW algorithm
-    difficulty = 6
+    difficulty = 4
 
     def __init__(self):
         self.unconfirmed_transactions = []
@@ -47,7 +47,7 @@ class Blockchain:
         return self.chain[-1]
 
     @property
-    def chain_length(self):
+    def length(self):
         return self.chain_length
 
     def add_block(self, block, proof):
@@ -178,7 +178,7 @@ def get_chain():
     chain_data = []
     for block in blockchain.chain:
         chain_data.append(block.__dict__)
-    return json.dumps({"length": len(chain_data),
+    return json.dumps({"length": blockchain.length,
                        "chain": chain_data,
                        "peers": list(peers)})
 
@@ -193,9 +193,9 @@ def mine_unconfirmed_transactions():
         return "No transactions to mine"
     else:
         # Making sure we have the longest chain before announcing to the network
-        chain_length = len(blockchain.chain)
+        chain_length = blockchain.length
         consensus()
-        if chain_length == len(blockchain.chain):
+        if chain_length == blockchain.length:
             # announce the recently mined block to the network
             announce_new_block(blockchain.last_block)
         return "Block #{} is mined.".format(blockchain.last_block.index)
@@ -300,7 +300,7 @@ def consensus():
     global blockchain
 
     longest_chain = None
-    current_len = len(blockchain.chain)
+    current_len = blockchain.length
 
     for node in peers:
         response = requests.get('{}chain'.format(node))
