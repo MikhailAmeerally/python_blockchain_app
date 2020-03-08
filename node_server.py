@@ -24,7 +24,7 @@ class Block:
 
 class Blockchain:
     # difficulty of our PoW algorithm
-    difficulty = 4
+    difficulty = 6
 
     def __init__(self):
         self.unconfirmed_transactions = []
@@ -125,7 +125,7 @@ class Blockchain:
         and figuring out Proof Of Work.
         """
         if not self.unconfirmed_transactions:
-            return False
+            return False,False
 
         last_block = self.last_block
 
@@ -135,11 +135,11 @@ class Blockchain:
                           previous_hash=last_block.hash)
 
         proof = self.proof_of_work(new_block)
-        self.add_block(new_block, proof)
+        block_added = self.add_block(new_block, proof)
 
         self.unconfirmed_transactions = []
 
-        return True
+        return (True,block_added)
 
 
 app = Flask(__name__)
@@ -189,9 +189,11 @@ def get_chain():
 @app.route('/mine', methods=['GET'])
 def mine_unconfirmed_transactions():
     result = blockchain.mine()
-    if not result:
+    if not result[0]:
         return "No transactions to mine"
     else:
+        if not result[1]:
+            return "Block #{} was already mined... you snooze you lose."
         # Making sure we have the longest chain before announcing to the network
         chain_length = blockchain.length
         consensus()
