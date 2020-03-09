@@ -8,13 +8,14 @@ from flask import render_template, redirect, request
 from app import app
 
 
-if len(sys.argv) != 2:
-    print("Usage: python run_app.py [port]")
+if len(sys.argv) != 3:
+    print("Usage: python run_app.py [host] [port]")
     exit(1)
-PORT = sys.argv[1]
+PORT = sys.argv[2]
+HOST = sys.argv[1]
 # The node with which our application interacts, there can be multiple
 # such nodes as well.
-CONNECTED_NODE_ADDRESS = "http://127.0.0.1:{}".format(PORT)
+CONNECTED_NODE_ADDRESS = "http://{}:{}".format(HOST,PORT)
 print(CONNECTED_NODE_ADDRESS)
 
 posts = []
@@ -46,7 +47,7 @@ def fetch_posts():
 def index():
     fetch_posts()
     return render_template('index.html',
-                           title='Arnies Block Chain\n',
+                           title="Arnie's Block Chain\n",
                            posts=posts,
                            node_address=CONNECTED_NODE_ADDRESS,
                            readable_time=timestamp_to_string)
