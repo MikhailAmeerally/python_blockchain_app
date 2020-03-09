@@ -1,3 +1,8 @@
 from app import app
+import sys
 
-app.run(debug=True)
+if len(sys.argv) != 2:
+    print("Usage: python run_app.py [port]")
+    exit(1)
+
+app.run(port=int(sys.argv[1]), debug=True)
