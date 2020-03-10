@@ -74,7 +74,7 @@ class Blockchain:
         #What are you trying to validate? 
         #Hint: use the previous_hash variable. what could it compare to?
         #HINT: Look at the block attributes :)
-        #TODO
+        #TODO: replace SOME_CONDITION with the correct comparison
         if SOME_CONDITION:
             return False
 
@@ -99,7 +99,7 @@ class Blockchain:
         block.nonce = 0
         computed_hash = SOMETHING
         while not SOME_CONDITION:
-            #TODO: prove to me that there is some way to make this loop break
+            #TODO: prove to me that there is some way to make this loop finishes
             #HINT: Remember the definition of mining is to find a ____ that satisfies
             #      the difficulty (look how we defined difficulty)
             # gotta update something :) might be a bruteforce. might not ¯\_(ツ)_/¯
@@ -112,7 +112,7 @@ class Blockchain:
 
     def add_new_transaction(self, transaction):
         '''
-        Add the transaction to the waiting transactions
+        Add the new transaction to the unconfirmed transactions
         '''
         #TODO
         pass
@@ -123,8 +123,9 @@ class Blockchain:
         Check if block_hash is valid hash of block and satisfies
         the difficulty criteria.
         """
-        #TODO: read the doc string. look at how we define difficulty.
-        return SOME_CONDITION
+        #NOTE: cls is just an implementation to reference the Blockchain class, rather than passing self
+        #TODO: read the doc string. look at how we define difficulty. Need to satisfy 2 conditions
+        return SOME_CONDITION and SOME_CONDITION
 
     @classmethod
     def check_chain_validity(cls, chain):
@@ -164,7 +165,7 @@ class Blockchain:
 
         #TODO: get the proof and add it to the chain (function calls only)
         proof = SOMETHING
-        block_added = SOME_BOOL
+        block_added = SOMETHING
         self.unconfirmed_transactions = []
 
         return (True,block_added)
