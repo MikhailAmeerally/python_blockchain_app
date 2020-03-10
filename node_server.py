@@ -24,7 +24,7 @@ class Block:
 
 class Blockchain:
     # difficulty of our PoW algorithm
-    difficulty = 2
+    difficulty = 1
 
     def __init__(self):
         self.unconfirmed_transactions = []
@@ -69,6 +69,10 @@ class Blockchain:
         block.hash = proof
         self.chain.append(block)
         self.chain_length += 1
+
+        if self.chain_length % 5 == 0:
+            self.difficulty += 1
+            print(self.difficulty)
         return True
 
     @staticmethod
@@ -83,7 +87,7 @@ class Blockchain:
         while not computed_hash.startswith('0' * Blockchain.difficulty):
             block.nonce += 1
             computed_hash = block.compute_hash()
-            print(computed_hash)
+            
 
         return computed_hash
 
