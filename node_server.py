@@ -5,6 +5,9 @@ import time
 from flask import Flask, request
 import requests
 
+SOME_CONDITION = True
+SOMETHING = "???"
+SOME_BOOL = False
 
 class Block:
     def __init__(self, index, transactions, timestamp, previous_hash, nonce=0):
@@ -24,9 +27,16 @@ class Block:
 
 class Blockchain:
     # difficulty of our PoW algorithm
+    # difficulty is going to be the number of leading 0's we look for
+    # in the hash we generate for a block. might be important (?)
     difficulty = 2
 
     def __init__(self):
+        '''
+        unconfirmed_transactions: list of items that are yet to be mined
+        chain: the literal chain of blocks. 
+        chain_length: len(self.chain)
+        '''
         self.unconfirmed_transactions = []
         self.chain = []
         self.chain_length = 0
@@ -34,7 +44,7 @@ class Blockchain:
     def create_genesis_block(self):
         """
         A function to generate genesis block and appends it to
-        the chain. The block has index 0, previous_hash as 0, and
+        the chain. The block has index 0, no transactions, time 0, previous_hash as 0, and
         a valid hash.
         """
         genesis_block = Block(0, [], 0, "0")
@@ -42,6 +52,7 @@ class Blockchain:
         self.chain.append(genesis_block)
         self.chain_length += 1
 
+    # This property might come in VERY handy (hint hint)
     @property
     def last_block(self):
         return self.chain[-1]
@@ -60,7 +71,11 @@ class Blockchain:
         """
         previous_hash = self.last_block.hash
 
-        if previous_hash != block.previous_hash:
+        #What are you trying to validate? 
+        #Hint: use the previous_hash variable. what could it compare to?
+        #HINT: Look at the block attributes :)
+        #TODO
+        if SOME_CONDITION:
             return False
 
         if not Blockchain.is_valid_proof(block, proof):
@@ -77,18 +92,30 @@ class Blockchain:
         Function that tries different values of nonce to get a hash
         that satisfies our difficulty criteria.
         """
+        #Do you remember what we talked about in presentation?
+        #For a block to satisfy PoW, it must satisy what?
+        #hint: look at what the Block.methods are. 
+        #TODO
         block.nonce = 0
+        computed_hash = SOMETHING
+        while not SOME_CONDITION:
+            #TODO: prove to me that there is some way to make this loop break
+            #HINT: Remember the definition of mining is to find a ____ that satisfies
+            #      the difficulty (look how we defined difficulty)
+            # gotta update something :) might be a bruteforce. might not ¯\_(ツ)_/¯
 
-        computed_hash = block.compute_hash()
-        while not computed_hash.startswith('0' * Blockchain.difficulty):
-            block.nonce += 1
-            computed_hash = block.compute_hash()
+            #TODO: replace this todo with a line of code. 
+            computed_hash = SOMETHING
             print(computed_hash)
 
         return computed_hash
 
     def add_new_transaction(self, transaction):
-        self.unconfirmed_transactions.append(transaction)
+        '''
+        Add the transaction to the waiting transactions
+        '''
+        #TODO
+        pass
 
     @classmethod
     def is_valid_proof(cls, block, block_hash):
@@ -96,8 +123,8 @@ class Blockchain:
         Check if block_hash is valid hash of block and satisfies
         the difficulty criteria.
         """
-        return (block_hash.startswith('0' * Blockchain.difficulty) and
-                block_hash == block.compute_hash())
+        #TODO: read the doc string. look at how we define difficulty.
+        return SOME_CONDITION
 
     @classmethod
     def check_chain_validity(cls, chain):
@@ -135,9 +162,9 @@ class Blockchain:
                           timestamp=time.time(),
                           previous_hash=last_block.hash)
 
-        proof = self.proof_of_work(new_block)
-        block_added = self.add_block(new_block, proof)
-
+        #TODO: get the proof and add it to the chain (function calls only)
+        proof = SOMETHING
+        block_added = SOME_BOOL
         self.unconfirmed_transactions = []
 
         return (True,block_added)
