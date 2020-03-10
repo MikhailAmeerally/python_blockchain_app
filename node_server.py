@@ -24,7 +24,7 @@ class Block:
 
 class Blockchain:
     # difficulty of our PoW algorithm
-    difficulty = 6
+    difficulty = 2
 
     def __init__(self):
         self.unconfirmed_transactions = []
@@ -83,6 +83,7 @@ class Blockchain:
         while not computed_hash.startswith('0' * Blockchain.difficulty):
             block.nonce += 1
             computed_hash = block.compute_hash()
+            print(computed_hash)
 
         return computed_hash
 
@@ -189,6 +190,7 @@ def get_chain():
 @app.route('/mine', methods=['GET'])
 def mine_unconfirmed_transactions():
     result = blockchain.mine()
+    print(result)
     if not result[0]:
         return "No transactions to mine"
     else:
@@ -196,7 +198,7 @@ def mine_unconfirmed_transactions():
             return "Block #{} was already mined... you snooze you lose."
         # Making sure we have the longest chain before announcing to the network
         chain_length = blockchain.length
-        consensus()
+        #consensus()
         if chain_length == blockchain.length:
             # announce the recently mined block to the network
             announce_new_block(blockchain.last_block)
@@ -242,7 +244,7 @@ def register_with_existing_node():
         # update chain and the peers
         chain_dump = response.json()['chain']
         blockchain = create_chain_from_dump(chain_dump)
-        peers.update(response.json()['peers'])
+        
         return "Registration successful", 200
     else:
         # if something goes wrong, pass it on to the API response

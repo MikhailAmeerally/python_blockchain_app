@@ -8,10 +8,10 @@ from flask import render_template, redirect, request
 from app import app
 
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 4:
     print("Usage: python run_app.py [host] [port]")
     exit(1)
-PORT = sys.argv[2]
+PORT = sys.argv[3]
 HOST = sys.argv[1]
 # The node with which our application interacts, there can be multiple
 # such nodes as well.

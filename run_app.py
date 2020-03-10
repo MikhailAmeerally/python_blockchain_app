@@ -1,7 +1,7 @@
 from app import app
 import sys
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 4:
     print("Usage: python run_app.py [port]")
     exit(1)
 
